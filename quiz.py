@@ -118,16 +118,19 @@ class Round(object):
         self.index_phrase=0
         self.spaces=0
         self.list_substitution=[]
+        self.list_space=[]
         self.select_index_phrase()
         self.amount_of_spaces()
         self.substitution_list()
+        self.space_list()
         
         
     def select_index_phrase(self):
-        index_round=np.random.randint(size_phrases)       
+        
+        index_round=np.random.randint(size_phrases)    
         while index_round not in index_phrases_not_used:
-            index_round=np.random.randint(size_phrases)        
-        index_phrases_not_used.pop(index_round)         
+            index_round=np.random.randint(size_phrases)          
+        index_phrases_not_used.remove(index_round)             
         self.index_phrase=index_round
         self.phrase=phrases[str(index_round)]            
     
@@ -152,17 +155,28 @@ class Round(object):
 
     def substitution_list(self):
         
-        temporary_list=[]
-        temporary_list.append(np.random.randint(self.phrase.size))       
+ 
+        self.list_substitution.append(np.random.randint(self.phrase.size))       
         count = 1
         position=np.random.randint(self.phrase.size)
         while count < self.spaces:
-            while position in temporary_list:
+            while position in self.list_substitution:
                 position=np.random.randint(self.phrase.size)
-            temporary_list.append(position)
+            self.list_substitution.append(position)
             count+=1
-        temporary_list.sort()
-        self.list_substitution=temporary_list
+        self.list_substitution.sort()
+  
+        
+    def space_list(self):       
+        
+        count=0
+        for i in range(self.phrase.size):
+            if i in self.list_substitution:
+                self.list_space.append(white_spaces[count])
+                count+=1
+            else:
+                self.list_space.append(self.phrase.words[i])
+
         
 def add_phrases(list_phrases):
     size_phrases=len(list_phrases)
@@ -185,18 +199,22 @@ A.phrase
 A.level
 A.spaces
 A.list_substitution
+A.list_space
     
 B.phrase
 B.spaces  
 B.list_substitution
+B.list_space
 
 C.phrase
 C.spaces  
-C.list_substitution                       
+C.list_substitution
+C.list_space                       
     
 D.phrase
 D.spaces
 D.list_substitution
+D.list_space
     
     
         
