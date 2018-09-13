@@ -8,9 +8,11 @@ Created on Wed Sep 12 14:21:25 2018
 import numpy as np
 
 nosymbols=[",",".",";","!","?"]
-
-levels=["facil","médio","difícil"]
-
+levels=["fácil","médio","difícil"]
+chances_by_level=[3,2,1]
+number_spaces=[2,3,4,5,6]
+size_of_phrase=[3,4,5,6,7]
+levels_score=[1,3,5]
 white_spaces=["__1__", "__2__", "__3__", "__4__", "__5__","__6__"]
 
 phrases_basics=    ["A César o que é de César, a Deus o que é de Deus.",
@@ -100,8 +102,9 @@ class Phrase(str):
              
                 
 class Player(object):
-    def __init__(self,name):
-        self.name=name
+    def __init__(self):
+        self.name=""
+        self.name=input(" Por favor, digite o seu nome:")
 
     
 class Round(object):
@@ -110,7 +113,56 @@ class Round(object):
         self.number=number
         self.level=level
         self.player=player
+        self.phrase=""
+        self.list_index=[]
+        self.index_phrase=0
+        self.spaces=0
+        self.list_substitution=[]
+        self.select_index_phrase()
+        self.amount_of_spaces()
+        self.substitution_list()
+        
+        
+    def select_index_phrase(self):
+        index_round=np.random.randint(size_phrases)       
+        while index_round not in index_phrases_not_used:
+            index_round=np.random.randint(size_phrases)        
+        index_phrases_not_used.pop(index_round)         
+        self.index_phrase=index_round
+        self.phrase=phrases[str(index_round)]            
+    
+    def amount_of_spaces(self):
+        
+        if self.level==levels[0]:
+            self.spaces=number_spaces[0]
+        if self.level==levels[1]:
+            if self.phrase.size>=size_of_phrase[1]:
+                self.spaces=number_spaces[1]
+            else:
+                self.spaces=number_spaces[0]      
+        if self.level == levels[2]:            
+            if self.phrase.size<=size_of_phrase[2]:
+                self.spaces= number_spaces[1]                
+            if self.phrase.size >size_of_phrase[2]:
+                self.spaces=number_spaces[2]                
+            if self.phrase.size>size_of_phrase[3]:
+                self.spaces= number_spaces[3]           
+            if self.phrase.size> size_of_phrase[4]:
+                self.spaces=number_spaces[4]             
 
+    def substitution_list(self):
+        
+        temporary_list=[]
+        temporary_list.append(np.random.randint(self.phrase.size))       
+        count = 1
+        position=np.random.randint(self.phrase.size)
+        while count < self.spaces:
+            while position in temporary_list:
+                position=np.random.randint(self.phrase.size)
+            temporary_list.append(position)
+            count+=1
+        temporary_list.sort()
+        self.list_substitution=temporary_list
         
 def add_phrases(list_phrases):
     size_phrases=len(list_phrases)
@@ -118,14 +170,33 @@ def add_phrases(list_phrases):
         phrases["{0}".format(index)]=Phrase(list_phrases[index])
     return phrases
 
+
+
 phrases=add_phrases(phrases_basics)
 
 phrases["22"].words
         
-       
+A=Round(1,2,"fácil")
+B=Round(1,2,"médio")
+C=Round(1,2,"difícil")
+D=Round(1,2,"difícil")
+
+A.phrase
+A.level
+A.spaces
+A.list_substitution
     
-                            
+B.phrase
+B.spaces  
+B.list_substitution
+
+C.phrase
+C.spaces  
+C.list_substitution                       
     
+D.phrase
+D.spaces
+D.list_substitution
     
     
         

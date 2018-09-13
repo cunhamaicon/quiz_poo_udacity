@@ -1,3 +1,6 @@
 12/09 - inicico do programa
 tranformar o cdigo do quiz em poo 2 horas - inicio
 
+13/09 - segundo dia no codigo 40 minutos, implementacao de funcoes em round
+
+
