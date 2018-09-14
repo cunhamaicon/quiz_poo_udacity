@@ -102,14 +102,61 @@ class Phrase(str):
              
                 
 class Player(object):
+    
     def __init__(self):
         self.name=""
         self.name=input(" Por favor, digite o seu nome:")
-
+        self.score=0
+        
+    def print_score_middle(self):
+        print("Você marcou {} pontos até o momento {} !"\
+              .format(self.score,self.name))
+        
+    def print_final_score(self):
+        print("Parabéns {}! Sua pontuação final foi {}.".\
+              format(self.name,self.score))
+        
+class Game(object):
+    
+    def __init__(self):
+        self.new_round=True
+        self.round=1
+        
+        
+    def initial_istructions(self):
+        
+        print("")
+        print("O objetivo do jogo é completar as palavras de uma frase...")
+        print("Não se esqueça dos acentos!")
+        print("Se você escolher difícil você só terá uma chance por palavra,")
+        print("médio duas chances e fácil três chances.")   
+        print("A escolha dos níveis também pode deixar mais espaços em branco!")
+        print("Fácil são dois, médio é de dois a três e difícil é de três à seis espaços!")
+        print("")
+        print("Cada frase acertada no nível {} acumula {} pontos!"\
+          .format(levels[2],levels_score[2]))
+        print("Cada frase acertada no nível {} acumula {} pontos!"\
+          .format(levels[1],levels_score[1]))
+        print("Cada frase acertada no nível {} acumula {} ponto!"\
+          .format(levels[0],levels_score[0]))
+        print("Pense nas suas escolhas e boa sorte!!")
+        print("")
+        
+       
+    
+    def begin_game(self):
+        self.initial_istructions()
+        player1= Player()
+        
+        
+    def final_instructions(self):
+        print("")
+        print("Fim de jogo.")
+        
     
 class Round(object):
     
-    def __init__(self,number,player,level):
+    def __init__(self,number,player,level=""):
         self.number=number
         self.level=level
         self.player=player
@@ -120,10 +167,47 @@ class Round(object):
         self.list_substitution=[]
         self.list_space=[]
         self.select_index_phrase()
+        self.score=0
+        self.choices=0
+        self.max_choices=0
+        self.match=False
+        
+    def verify_match(self):
+        if self.phrase.words==self.list_space:
+            self.match=True
+        
+        
+    def select_level(self):
+        
+        print("")
+        self.level=input("Escolha um nível: {}, {}, {}: "\
+                .format(levels[0],levels[1],levels[2]).lower()).lower()
+        
+        if self.level.startswith(levels[0][0]):
+            self.level=levels[0]
+        
+        if self.level.startswith(levels[1][0]):
+            self.level=levels[1]
+            
+        if self.level.startswith(levels[2][0]):
+            self.level=levels[2]
+        
+        while self.level not in levels :
+            print("Digite um nível válido...")
+            self.level=input("Escolha um nível: {}, {}, {}: ".\
+                    format(levels[0],levels[1],levels[2])).lower()
+            
+        self.max_choices=chances_by_level[levels.index(self.level)]
+        
         self.amount_of_spaces()
+        
         self.substitution_list()
+        
         self.space_list()
         
+        
+        
+
         
     def select_index_phrase(self):
         
@@ -151,7 +235,8 @@ class Round(object):
             if self.phrase.size>size_of_phrase[3]:
                 self.spaces= number_spaces[3]           
             if self.phrase.size> size_of_phrase[4]:
-                self.spaces=number_spaces[4]             
+                self.spaces=number_spaces[4] 
+    
 
     def substitution_list(self):
         
@@ -175,8 +260,37 @@ class Round(object):
                 self.list_space.append(white_spaces[count])
                 count+=1
             else:
-                self.list_space.append(self.phrase.words[i])
-
+                self.list_space.append(self.phrase.words[i])              
+    
+    def verify_word(self,word,position):
+        self.choices+=1
+        if self.phrase.words[position]==word.lower():
+            return True
+        return False
+    
+    
+    def change_list_space(self,word,position):
+        if self.verify_word(word,position):
+            self.list_space[position]=word.lower()
+    
+    def print_phrase_spaces(self):
+        print(" ".join(self.list_space)) 
+    
+        
+    def add_score(self):
+        
+        if self.list_space==self.phrase.words:
+            if self.level== levels[0]:
+                self.score+=levels_score[0]
+            if self.level== levels[1]:
+                self.score+=levels_score[1]
+            if self.level== levels[2]:
+                self.score+=levels_score[2]
+                
+        self.player.score+=self.score
+        
+    
+   
         
 def add_phrases(list_phrases):
     size_phrases=len(list_phrases)
@@ -190,31 +304,36 @@ phrases=add_phrases(phrases_basics)
 
 phrases["22"].words
         
-A=Round(1,2,"fácil")
-B=Round(1,2,"médio")
-C=Round(1,2,"difícil")
-D=Round(1,2,"difícil")
+x=Player()
 
-A.phrase
-A.level
-A.spaces
-A.list_substitution
-A.list_space
-    
-B.phrase
-B.spaces  
-B.list_substitution
-B.list_space
+x.print_final_score()
 
-C.phrase
-C.spaces  
-C.list_substitution
-C.list_space                       
+D=Round(1,x)
+                
+D.select_level()    
     
+D.max_choices
+
 D.phrase
 D.spaces
 D.list_substitution
 D.list_space
-    
-    
+D.print_phrase_spaces()
+
+D.change_list_space("mão",5)
+
+D.change_list_space("que",7)
+
+D.verify_match()
+
+D.match
+
+D.list_space
+
+D.add_score()
+
+x.score
+
+D.score
         
+
