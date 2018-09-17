@@ -5,4 +5,6 @@ tranformar o cdigo do quiz em poo 2 horas - inicio
 
 14/09 - terceiro dia, implementando round - 2 horas - novas classes
 
+15/09 - quarto dia --- 2hora e meia - alterando ruond e criando o jogo
+
 
