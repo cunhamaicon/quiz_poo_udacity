@@ -6,7 +6,7 @@ O quiz se baseia em uma lista de frases, onde o jogador deve acertar palavras oc
 
 Esse programa é uma versão em programação orientada à objetos aprimorada do projeto desenvolvido em https://github.com/cunhamaicon/projetoudacity
 
-Nessa nova versão as frases do jogo podem ser adicionadas alterando diretamengte o arquivo phrases.txt. Além disso o jogo está mais flexível com relação a pontuação inserida nas frases e todas as variáveis podem ser alteradas sem que altere a estrutura do programa.
+Nessa nova versão as frases do jogo podem ser adicionadas alterando diretamente o arquivo phrases.txt. Além disso o jogo está mais flexível com relação a pontuação inserida nas frases e todas as variáveis podem ser alteradas sem que altere a estrutura do programa.
 
 Para criar essa nova versão foram necessárias 9 horas de trabalho total. Apesar do código ficar maior o processo de desenvolvimento foi mais rápido e com menos erros para corrigir. Esse arquivo pode servir de base para a construção de outros jogos semelhantes a esse já que a estrutura básica está melhor elaborada.
 
