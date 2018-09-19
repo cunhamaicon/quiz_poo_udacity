@@ -40,7 +40,6 @@ size_of_phrase=[3,4,5,6,7]
 levels_score=[1,3,5]
 white_spaces=["__1__", "__2__", "__3__", "__4__", "__5__","__6__"]
 
-
 #file that store the phrases of the game
 file = open("phrases.txt","r") 
 phrases_basics = []
@@ -50,8 +49,6 @@ for line in file:
 file.close()
 phrases={}
 size_phrases=len(phrases_basics)
-index_phrases_not_used=list(range(size_phrases))
-
 
 class Phrase(str):
     
@@ -131,7 +128,7 @@ class Game(object):
     """Class that store games"""
     
     def __init__(self):
-        self.new_round=True
+        self.new_round=True       
         self.round=1
         
         
@@ -206,6 +203,7 @@ and makes all necessary calculations to play a round """
     
     def __init__(self,number,player,level=""):
         self.number=number
+        self.phrases_not_used=list(range(size_phrases))
         self.level=level
         self.player=player
         self.phrase=""
@@ -233,32 +231,29 @@ and makes all necessary calculations to play a round """
         """According user's response select the level.
         The response should start with the initial letter of the level."""
         
-        print("")
-        self.level=input("Escolha um nível: {}, {}, {}: "\
+        while self.level not in levels :
+            print("")
+            self.level=input("Escolha um nível: {}, {}, {}: "\
                 .format(levels[0],levels[1],levels[2])).lower()
         
-        if self.level.startswith(levels[0][0]):
-            self.level=levels[0]
+            if self.level.startswith(levels[0][0]):
+                self.level=levels[0]
         
-        if self.level.startswith(levels[1][0]):
-            self.level=levels[1]
+            if self.level.startswith(levels[1][0]):
+                self.level=levels[1]
             
-        if self.level.startswith(levels[2][0]):
-            self.level=levels[2]
+            if self.level.startswith(levels[2][0]):
+                self.level=levels[2]
         
-        while self.level not in levels :
-            print("Digite um nível válido...")
-            self.level=input("Escolha um nível: {}, {}, {}: ".\
-                    format(levels[0],levels[1],levels[2])).lower()
         
     def select_index_phrase(self):
         
         """Selects an random index not used. This index will select the phrase of the round."""
         
         index_round=np.random.randint(size_phrases)    
-        while index_round not in index_phrases_not_used:
+        while index_round not in self.phrases_not_used:
             index_round=np.random.randint(size_phrases)          
-        index_phrases_not_used.remove(index_round)             
+        self.phrases_not_used.remove(index_round)             
         self.index_phrase=index_round
         self.phrase=phrases[str(index_round)]            
     
@@ -400,7 +395,6 @@ and makes all necessary calculations to play a round """
             print(self.phrase)
             print("")   
  
-        
 def add_phrases(list_phrases):
     
     """Creates the phrases of the game"""
@@ -410,7 +404,8 @@ def add_phrases(list_phrases):
         phrases["{0}".format(index)]=Phrase(list_phrases[index])
     return phrases
 
-phrases=add_phrases(phrases_basics)
+phrases=add_phrases(phrases_basics)        
+
 
 game1=Game()
 game1.play_game()
